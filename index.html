@@ -5,9 +5,72 @@
     <title>Wandernaut</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .pixelated {
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -webkit-crisp-edges;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+      }
+
+      body {
+        background: linear-gradient(180deg, rgba(25,125,227,1) 0%, rgba(85,178,226,1) 35%, rgba(130,255,241,1) 100%);
+        height:2000px;
+      }
+
+      #container {
+        background-image:url(./assets/images/planet-1.png);
+        background-repeat:repeat-x;
+        background-size:calc(3 * 960px);
+        width:100%;
+        height:100%;
+        color:white;
+      }
+
+      #title-container {
+        display:flex;
+        flex-direction: column;
+        align-items:center;
+        justify-content:start;
+        padding: 40px;
+      }
+    </style>
   </head>
-<body>
-<h1>Wandernaut</h1>
-<p>2D Platformer Creating and Exploration Game</p>
-</body>
+  <body class="pixelated">
+    <div id="container" class="pixelated">
+      <div id="title-container">
+        <h1>Wandernaut</h1>
+        <p>2D Platformer Creating and Exploration Game</p>
+      </div>
+    </div>
+  </body>
+  <script>
+    function getVerticalScrollPercentage( elm ){
+      const p = elm.parentNode
+      return (elm.scrollTop || p.scrollTop) / (p.scrollHeight - p.clientHeight )
+    }
+
+    function scrollUpdate() {
+      const doc = document.documentElement;
+      const top = window.pageYOffset;
+      const hImage = 480;
+      const yStart = window.innerHeight - hImage * 2;
+      const yEnd = window.innerHeight - hImage * 3;
+      const resultPx = getVerticalScrollPercentage(document.body) * (yEnd - yStart) + yStart;
+      const container = document.getElementById("container");
+      container.style.backgroundPosition = `0px ${resultPx + top}px`
+    }
+
+    addEventListener("scroll", () => scrollUpdate());
+    addEventListener("resize", () => scrollUpdate());
+
+    scrollUpdate();
+
+  </script>
 </html>
